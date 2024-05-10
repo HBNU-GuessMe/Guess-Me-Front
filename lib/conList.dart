@@ -1,0 +1,150 @@
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:information/conComplete.dart';
+
+class FamilyList extends StatefulWidget {
+  const FamilyList({super.key});
+
+  @override
+  State<FamilyList> createState() => _FamilyListState();
+}
+
+class _FamilyListState extends State<FamilyList> {
+  final List<String> familyMembers = [
+    '가족1',
+    '가족2',
+    '가족3',
+  ];
+
+  Timer? _timer;
+  int _start = 15;
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+  }
+
+  void startTimer() {
+    _start = 15;
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_start > 0) {
+        setState(() {
+          _start--;
+        });
+      } else {
+        setState(() {
+          //페이지 새로고침 로직 미구현
+          _start = 15;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color.fromRGBO(255, 240, 246, 1),
+      appBar: AppBar(
+        title: SizedBox(
+          width: 200,
+          height: 200,
+          child: Image.asset('assets/GuessMe_AppBar_newLogo.png'),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color.fromRGBO(255, 240, 246, 1),
+        elevation: 0.0,
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 30,
+            ),
+            const Text(
+              '현재 연결된 가족을 확인하세요',
+              style: TextStyle(
+                  color: Colors.black,
+                  letterSpacing: 1.5,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold),
+            ),
+            Text(
+              '15초마다 새로고침 됩니다. $_start초',
+              style: const TextStyle(fontSize: 16),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: familyMembers.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    title: Text(
+                      familyMembers[index],
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                },
+              ),
+            ),
+            SizedBox(
+              width: 280,
+              height: 45,
+              child: ElevatedButton(
+                onPressed: () {
+                  startTimer();
+                  //카카오 로그인 구현 후 연결 가능
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromRGBO(248, 187, 208, 1),
+                  padding: const EdgeInsets.all(5),
+                ),
+                child: const Text(
+                  '아직 연결 못한 가족이 있어요ㅠㅠ',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.0,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              width: 280,
+              height: 45,
+              child: ElevatedButton(
+                onPressed: () {
+                  _timer?.cancel();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => const ComCode()));
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromRGBO(248, 187, 208, 1),
+                  padding: const EdgeInsets.all(5),
+                ),
+                child: const Text(
+                  '가족과 모두 연결되었어요!',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.0,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 100,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
