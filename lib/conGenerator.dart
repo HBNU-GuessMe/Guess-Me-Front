@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
-import 'package:information/conInput.dart';
-import 'package:information/conList.dart';
+import 'package:guessme/conInput.dart';
+import 'package:guessme/conList.dart';
+import 'common_appbar.dart';
 
 class GenCode extends StatefulWidget {
   const GenCode({super.key});
@@ -38,21 +39,12 @@ class _GenCodeState extends State<GenCode> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(255, 240, 246, 1),
-      appBar: AppBar(
-        title: SizedBox(
-          width: 200,
-          height: 200,
-          child: Image.asset('assets/GuessMe_AppBar_newLogo.png'),
-        ),
-        centerTitle: true,
-        backgroundColor: const Color.fromRGBO(255, 240, 246, 1),
-        elevation: 0.0,
-      ),
+      appBar: const CommonAppBar(),
       body: Center(
         child: Column(
           children: [
             const SizedBox(
-              height: 119,
+              height: 20,
             ),
             const Text(
               '가족을 연결하고\n행복한 대화를 시작해보세요.',
@@ -64,9 +56,14 @@ class _GenCodeState extends State<GenCode> {
               textAlign: TextAlign.center,
             ),
             const SizedBox(
-              height: 60,
+              height: 150,
             ),
-            const Text('클릭해서 나의 코드 복사하기!'),
+            const Text(
+              '나의 코드 복사하기!',
+              style: TextStyle(
+                fontSize: 17,
+              ),
+            ),
             SizedBox(
               width: 200,
               height: 45,
@@ -78,7 +75,7 @@ class _GenCodeState extends State<GenCode> {
                 child: Text(
                   _newcode,
                   style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.bold),
+                      fontSize: 21, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
@@ -87,19 +84,22 @@ class _GenCodeState extends State<GenCode> {
             //   style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             // ),
             const SizedBox(
-              height: 50,
+              height: 150,
             ),
             SizedBox(
-              width: 250,
-              height: 45,
+              width: 270,
+              height: 60,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => const FamilyList()));
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromRGBO(248, 187, 208, 1),
                   padding: const EdgeInsets.all(5),
                 ),
                 child: const Text(
-                  '가족에게 초대장 보내기',
+                  '연결된 가족 보러가기',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20.0,
@@ -111,8 +111,8 @@ class _GenCodeState extends State<GenCode> {
               height: 15,
             ),
             SizedBox(
-              width: 250,
-              height: 45,
+              width: 270,
+              height: 60,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(context,
@@ -132,31 +132,35 @@ class _GenCodeState extends State<GenCode> {
               ),
             ),
             const SizedBox(
-              height: 200,
+              height: 150,
             ),
-            SizedBox(
-                child: Row(
-              children: <Widget>[
-                const SizedBox(
-                  width: 230,
-                ),
-                TextButton.icon(
-                  style: TextButton.styleFrom(foregroundColor: Colors.black),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => const FamilyList()));
-                  },
-                  icon: const Icon(
-                    Icons.arrow_forward_ios,
-                    size: 20.0,
-                  ),
-                  label: const Text(
-                    '우리 가족 목록',
-                    style: TextStyle(fontSize: 22.0),
-                  ),
-                ),
-              ],
-            )),
+            // SizedBox(
+            //     child: Row(
+            //   children: <Widget>[
+            //     const SizedBox(
+            //       width: 230,
+            //     ),
+            //     TextButton(
+            //       style: TextButton.styleFrom(foregroundColor: Colors.black),
+            //       onPressed: () {
+            //         Navigator.push(context,
+            //             MaterialPageRoute(builder: (_) => const FamilyList()));
+            //       },
+            //       child: const Row(
+            //         children: [
+            //           Text(
+            //             '우리 가족 목록',
+            //             style: TextStyle(fontSize: 22.0),
+            //           ),
+            //           Icon(
+            //             Icons.arrow_forward_ios,
+            //             size: 20.0,
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ],
+            // )),
           ],
         ),
       ),

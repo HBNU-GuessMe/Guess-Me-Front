@@ -1,10 +1,28 @@
 import 'package:flutter/material.dart';
-//import 'package:information/infoIntro.dart';
-import 'package:information/preOnboarding.dart';
-//import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
-//카카오 패키지 import
+import 'package:guessme/preOnboarding.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:provider/provider.dart';
+import 'shared_data.dart';
 
-void main() => runApp(const MyApp());
+Future<void> main() async {
+  KakaoSdk.init(nativeAppKey: '3bfa15a0b1b68cc42f84cf9328fb44e5');
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await initialization();
+  //print(await KakaoSdk.origin);
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => SharedData(),
+      child: const MyApp(),
+    ),
+  );
+}
+
+Future initialization() async {
+  await Future.delayed(const Duration(seconds: 2));
+  FlutterNativeSplash.remove();
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -22,33 +40,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
-//---------------------기본 UI구현 복붙용----------------------
-
-/*
-
-  final _valueList = ['첫번째', '두번째', '세번째'];
-  final _selectedValue = '첫번째';
-
-DropdownButton(
-              value: _selectedValue,
-              items: _valueList.map(
-                (value) {
-                  return DropdownMenuItem(
-                    value: value,
-                    child: Text(value),
-                  );
-                },
-              ).toList(),
-              onChanged: (value) {
-                setState(() {
-                  _selectedValue = value!;
-                });
-              },
-            ),
-
-//사전정보수집5 관심사
-//사전정보수집6 고민
-//사전정보수집7 완료
-*/

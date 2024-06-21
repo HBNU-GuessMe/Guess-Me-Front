@@ -1,19 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:information/infoPosition.dart';
-
-void main() => runApp(const MyApp());
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: OnboardingScreen(),
-    );
-  }
-}
+import 'package:guessme/preLogin.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -31,7 +18,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   void initState() {
     super.initState();
     _timer = Timer.periodic(const Duration(seconds: 3), (Timer timer) {
-      if (_currentPage < 1) {
+      if (_currentPage < 2) {
         _currentPage++;
       } else {
         _currentPage = 0;
@@ -45,6 +32,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         );
       }
     });
+
+    _pageController.addListener(() {
+      final page = _pageController.page;
+      if (page != null) {
+        setState(() {
+          _currentPage = page.round();
+        });
+      }
+    });
   }
 
   @override
@@ -54,6 +50,30 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     super.dispose();
   }
 
+  Widget _buildPageIndicator(bool isActive) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 150),
+      margin: const EdgeInsets.symmetric(horizontal: 4.0),
+      height: isActive ? 12.0 : 8.0,
+      width: isActive ? 12.0 : 8.0,
+      decoration: BoxDecoration(
+        color: isActive ? Colors.blueGrey : Colors.grey,
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
+      ),
+    );
+  }
+
+  List<Widget> _buildPageIndicators() {
+    List<Widget> list = [];
+    int numPages = 2;
+    for (int i = 0; i < numPages; i++) {
+      list.add(i == _currentPage
+          ? _buildPageIndicator(true)
+          : _buildPageIndicator(false));
+    }
+    return list;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,22 +81,37 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         controller: _pageController,
         children: <Widget>[
           Container(
-            color: Colors.red,
-            child: const Center(
-              child: Text(
-                '앱 소개 1',
-                style: TextStyle(color: Colors.white, fontSize: 24),
-              ),
+            color: Colors.white,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 50,
+                ),
+                Expanded(
+                  child: Image.asset(
+                    'assets/GuessMe_onboarding11.png',
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ],
             ),
-            //decoration: Image(image: image),
           ),
           Container(
-            color: Colors.blue,
-            child: const Center(
-              child: Text(
-                '앱 소개 2',
-                style: TextStyle(color: Colors.white, fontSize: 24),
-              ),
+            color: Colors.white,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 50,
+                ),
+                Expanded(
+                  child: Image.asset(
+                    'assets/GuessMe_onboarding21.png',
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -84,27 +119,37 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       bottomSheet: SizedBox(
         width: double.infinity,
         height: 110,
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const PositionPage()));
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromRGBO(248, 187, 208, 1),
-              padding: const EdgeInsets.all(5),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: _buildPageIndicators(),
             ),
-            child: const Text(
-              '시작하기',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24.0,
+            const SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              width: 280,
+              height: 60,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => const LoginPage()));
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromRGBO(248, 187, 208, 1),
+                  padding: const EdgeInsets.all(5),
+                ),
+                child: const Text(
+                  '시작하기',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24.0,
+                  ),
+                ),
               ),
             ),
-          ),
+          ],
         ),
       ),
     );

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:information/conComplete.dart';
+import 'package:guessme/conComplete.dart';
+import 'common_appbar.dart';
 
 class FamilyList extends StatefulWidget {
   const FamilyList({super.key});
@@ -11,9 +12,9 @@ class FamilyList extends StatefulWidget {
 
 class _FamilyListState extends State<FamilyList> {
   final List<String> familyMembers = [
-    '가족1',
-    '가족2',
-    '가족3',
+    '쓔리쓔리걸',
+    '데디',
+    '맘',
   ];
 
   Timer? _timer;
@@ -52,16 +53,7 @@ class _FamilyListState extends State<FamilyList> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(255, 240, 246, 1),
-      appBar: AppBar(
-        title: SizedBox(
-          width: 200,
-          height: 200,
-          child: Image.asset('assets/GuessMe_AppBar_newLogo.png'),
-        ),
-        centerTitle: true,
-        backgroundColor: const Color.fromRGBO(255, 240, 246, 1),
-        elevation: 0.0,
-      ),
+      appBar: const CommonAppBar(),
       body: Center(
         child: Column(
           children: [
@@ -80,6 +72,9 @@ class _FamilyListState extends State<FamilyList> {
               '15초마다 새로고침 됩니다. $_start초',
               style: const TextStyle(fontSize: 16),
             ),
+            const SizedBox(
+              height: 15,
+            ),
             Expanded(
               child: ListView.builder(
                 itemCount: familyMembers.length,
@@ -94,8 +89,8 @@ class _FamilyListState extends State<FamilyList> {
               ),
             ),
             SizedBox(
-              width: 280,
-              height: 45,
+              width: 300,
+              height: 57,
               child: ElevatedButton(
                 onPressed: () {
                   startTimer();
@@ -106,7 +101,7 @@ class _FamilyListState extends State<FamilyList> {
                   padding: const EdgeInsets.all(5),
                 ),
                 child: const Text(
-                  '아직 연결 못한 가족이 있어요ㅠㅠ',
+                  '아직 연결 못한 가족이 있어요!',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
@@ -118,8 +113,8 @@ class _FamilyListState extends State<FamilyList> {
               height: 20,
             ),
             SizedBox(
-              width: 280,
-              height: 45,
+              width: 300,
+              height: 57,
               child: ElevatedButton(
                 onPressed: () {
                   _timer?.cancel();
@@ -140,7 +135,7 @@ class _FamilyListState extends State<FamilyList> {
               ),
             ),
             const SizedBox(
-              height: 100,
+              height: 250,
             ),
           ],
         ),

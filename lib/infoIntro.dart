@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:information/infoPosition.dart';
+import 'package:guessme/infoPosition.dart';
 
-//사전정보수집1 시작화면
+//안쓰는 페이지
 class InfoIntroPage extends StatelessWidget {
   const InfoIntroPage({super.key});
 

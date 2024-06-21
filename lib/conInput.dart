@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:information/conList.dart';
-//import 'package:fluttertoast/fluttertoast.dart';
+import 'package:guessme/conList.dart';
+import 'package:provider/provider.dart';
+import 'shared_data.dart';
+import 'common_appbar.dart';
 
 class InsCode extends StatefulWidget {
   const InsCode({super.key});
@@ -13,20 +14,29 @@ class InsCode extends StatefulWidget {
 }
 
 class _InsCodeState extends State<InsCode> {
+  String selectedFamilyCode = "";
+  final _contentEditController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _contentEditController.addListener(() {
+      selectedFamilyCode = _contentEditController.text;
+    });
+  }
+
+  @override
+  void dispose() {
+    _contentEditController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final sharedData = Provider.of<SharedData>(context);
     return Scaffold(
       backgroundColor: const Color.fromRGBO(255, 240, 246, 1),
-      appBar: AppBar(
-        title: SizedBox(
-          width: 200,
-          height: 200,
-          child: Image.asset('assets/GuessMe_AppBar_newLogo.png'),
-        ),
-        centerTitle: true,
-        backgroundColor: const Color.fromRGBO(255, 240, 246, 1),
-        elevation: 0.0,
-      ),
+      appBar: const CommonAppBar(),
       body: ListView(
         children: <Widget>[
           const SizedBox(
@@ -62,6 +72,7 @@ class _InsCodeState extends State<InsCode> {
                       hintText: '코드 입력하기',
                     ),
                     keyboardType: TextInputType.name,
+                    controller: _contentEditController,
                   ),
                 ],
               ),
@@ -69,10 +80,9 @@ class _InsCodeState extends State<InsCode> {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(100, 0, 100, 0),
-            // width: 250,
-            // height: 45,
             child: ElevatedButton(
               onPressed: () {
+                sharedData.connectFamilyCode(selectedFamilyCode);
                 showToast();
               },
               style: ElevatedButton.styleFrom(
@@ -97,19 +107,23 @@ class _InsCodeState extends State<InsCode> {
               const SizedBox(
                 width: 300,
               ),
-              TextButton.icon(
+              TextButton(
                 style: TextButton.styleFrom(foregroundColor: Colors.black),
                 onPressed: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (_) => const FamilyList()));
                 },
-                icon: const Icon(
-                  Icons.arrow_forward_ios,
-                  size: 20.0,
-                ),
-                label: const Text(
-                  '다음',
-                  style: TextStyle(fontSize: 22.0),
+                child: const Row(
+                  children: [
+                    Text(
+                      '다음',
+                      style: TextStyle(fontSize: 22.0),
+                    ),
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: 20.0,
+                    ),
+                  ],
                 ),
               ),
             ],
