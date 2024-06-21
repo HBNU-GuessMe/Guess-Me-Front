@@ -10,7 +10,6 @@ Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await initialization();
-  //print(await KakaoSdk.origin);
   runApp(
     ChangeNotifierProvider(
       create: (context) => SharedData(),
@@ -33,8 +32,13 @@ class MyApp extends StatelessWidget {
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
       },
-      child: const MaterialApp(
-        home: OnboardingScreen(),
+      child: MaterialApp(
+        theme: ThemeData(
+          bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            selectedItemColor: Color(0xFFF8BBD0), // 선택된 항목 색상을 핑크색으로 설정
+          ),
+        ),
+        home: const OnboardingScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );

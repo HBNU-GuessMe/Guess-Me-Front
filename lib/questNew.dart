@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:guessme/preLogin.dart';
 import 'package:guessme/questAnswer.dart';
 import 'package:guessme/questChat.dart';
 import 'package:guessme/questMypage.dart';
@@ -46,15 +45,12 @@ class _NewQuestState extends State<NewQuest> {
 
   void updateQuestionContent() {
     String question = "쓔리쓔리걸, 여행을 좋아하는데, 다음 목적지로 생각 중인 곳이 어디인지 말해줘.";
-    // String? question = QuestionManager().question;
-    //if (question != null) {
     for (var i = 0; i < answerList.length; i++) {
       if (answerList[i]["type"] == "question") {
         answerList[i]["content"] = question;
         break;
       }
     }
-    //}
   }
 
   @override
@@ -75,13 +71,13 @@ class _NewQuestState extends State<NewQuest> {
       appBar: AppBar(
         title: const Text(''),
         elevation: 0.0,
+        scrolledUnderElevation: 0,
       ),
       backgroundColor: Colors.white,
       body: IndexedStack(
         index: _index,
         children: [
           Center(
-//----------------------------------------1페이지----------------------------------------
             child: Column(
               children: <Widget>[
                 SizedBox(
@@ -128,34 +124,31 @@ class _NewQuestState extends State<NewQuest> {
               ],
             ),
           ),
-//----------------------------------------2페이지----------------------------------------
           const StoragePage(),
-//----------------------------------------3페이지----------------------------------------
           const OptionPage(),
         ],
       ),
-      floatingActionButton: myAnswer != "답변을 입력해주세요."
-          ? Padding(
-              padding: const EdgeInsets.only(bottom: 80.0, right: 10.0),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const ChatScreen()),
-                  );
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 20.0),
-                  decoration: BoxDecoration(
-                    color: Colors.pink[200],
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  child: const Text(
-                    '속마음 토크하기',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.0,
+      floatingActionButton: _index == 0 && myAnswer != "답변을 입력해주세요."
+          ? Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 0.0, right: 0.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const ChatScreen()),
+                    );
+                  },
+                  child: Container(
+                    width: 100, // 크기 증가
+                    height: 100, // 크기 증가
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/chat_floatingBtn.png'),
+                        fit: BoxFit.cover,
+                      ),
+                      shape: BoxShape.rectangle,
                     ),
                   ),
                 ),
@@ -168,7 +161,7 @@ class _NewQuestState extends State<NewQuest> {
           highlightColor: Colors.transparent,
         ),
         child: SizedBox(
-          height: kBottomNavigationBarHeight * 1.65,
+          height: kBottomNavigationBarHeight * 2.2,
           child: BottomNavigationBar(
             showSelectedLabels: false,
             showUnselectedLabels: false,
