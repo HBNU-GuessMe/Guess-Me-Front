@@ -1,5 +1,3 @@
-// main.dart
-
 import 'package:flutter/material.dart';
 import 'storage_appbar.dart';
 
@@ -39,8 +37,8 @@ class StoragePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildCustomAppBar("쓔리쓔리걸네 가족이 서로를 알아간 시간"),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 10.0), // 상단 패딩 추가
+      body: const Padding(
+        padding: EdgeInsets.only(top: 10.0), // 상단 패딩 추가
         child: GroupedScrollViewGridExample(),
       ),
     );
@@ -48,6 +46,8 @@ class StoragePage extends StatelessWidget {
 }
 
 class GroupedScrollViewGridExample extends StatelessWidget {
+  const GroupedScrollViewGridExample({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -63,7 +63,7 @@ class GroupedScrollViewGridExample extends StatelessWidget {
           final person = DataCache._instance.persons[index];
           return Container(
             decoration: BoxDecoration(
-              color: Color(0xFFCAECFF),
+              color: const Color(0xFFCAECFF),
               borderRadius: BorderRadius.circular(10.0),
             ),
             padding: const EdgeInsets.all(8),

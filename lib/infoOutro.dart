@@ -27,6 +27,13 @@ class _InfoOutroPageState extends State<InfoOutroPage> {
     List<String?> interest = sharedData.interestData;
     List<String?> gomin = sharedData.gominData;
 
+    String? interestString = interest.where((item) => item != null).isNotEmpty
+        ? interest.where((item) => item != null).join(',')
+        : null;
+    String? gominString = gomin.where((item) => item != null).isNotEmpty
+        ? gomin.where((item) => item != null).join(',')
+        : null;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const CommonAppBar(backgroundColor: Colors.white),
@@ -73,11 +80,22 @@ class _InfoOutroPageState extends State<InfoOutroPage> {
             child: TextButton(
               style: TextButton.styleFrom(foregroundColor: Colors.black),
               onPressed: () {
-                AuthService.saveAccessToken(newToken!);
-                _apiService.sendUserInfoToServer(role, nickname, gender, birth);
-                _apiService.sendUserInfo2ToServer(interest, gomin);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const GenCode()));
+                if (newToken != null) {
+                  AuthService.saveAccessToken(newToken);
+                  _apiService.sendUserInfoToServer(
+                      role, nickname, gender, birth);
+                  _apiService.sendUserInfo2ToServer(
+                      interestString, gominString);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => const GenCode()));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        content: Text('토큰을 가져오는데 실패했습니다. 다시 시도해주세요.')),
+                  );
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => const GenCode()));
+                }
               },
               child: const Row(
                 mainAxisSize: MainAxisSize.min,

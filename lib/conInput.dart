@@ -5,6 +5,7 @@ import 'package:guessme/conList.dart';
 import 'package:provider/provider.dart';
 import 'shared_data.dart';
 import 'common_appbar.dart';
+import 'api_service_get.dart';
 
 class InsCode extends StatefulWidget {
   const InsCode({super.key});
@@ -14,6 +15,7 @@ class InsCode extends StatefulWidget {
 }
 
 class _InsCodeState extends State<InsCode> {
+  final ApiGet _apiGet = ApiGet();
   String selectedFamilyCode = "";
   final _contentEditController = TextEditingController();
 
@@ -81,8 +83,9 @@ class _InsCodeState extends State<InsCode> {
           Padding(
             padding: const EdgeInsets.fromLTRB(100, 0, 100, 0),
             child: ElevatedButton(
-              onPressed: () {
-                sharedData.connectFamilyCode(selectedFamilyCode);
+              onPressed: () async {
+                sharedData.updateFamilyCode(selectedFamilyCode);
+                await _apiGet.checkFamilyCode(selectedFamilyCode);
                 showToast();
               },
               style: ElevatedButton.styleFrom(
@@ -136,7 +139,7 @@ class _InsCodeState extends State<InsCode> {
 
 void showToast() {
   Fluttertoast.showToast(
-    msg: '가족과 연결되었습니다.',
+    msg: '가족 연결중입니다.',
     gravity: ToastGravity.BOTTOM,
     backgroundColor: Colors.grey,
     fontSize: 18,

@@ -10,6 +10,7 @@ class ApiService {
   Future<void> _sendRequestToServer({
     required String path,
     required Map<String, dynamic> body,
+    required String functionName,
   }) async {
     String? token = await accessToken;
     try {
@@ -22,12 +23,13 @@ class ApiService {
         body: jsonEncode(body),
       );
       if (response.statusCode == 200) {
-        print('Data successfully sent to the server');
+        print('$functionName: Data successfully sent to the server');
       } else {
-        print('Failed to send data to the server: ${response.statusCode}');
+        print(
+            '$functionName: Failed to send data to the server: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error sending data to the server: $e');
+      print('$functionName: Error sending data to the server: $e');
     }
   }
 
@@ -41,17 +43,18 @@ class ApiService {
         'gender': gender,
         'birth': birth,
       },
+      functionName: 'sendUserInfoToServer',
     );
   }
 
-  Future<void> sendUserInfo2ToServer(
-      List<String?> interest, List<String?> gomin) async {
+  Future<void> sendUserInfo2ToServer(String? interest, String? gomin) async {
     await _sendRequestToServer(
       path: 'user/ward/info/register',
       body: {
         'interest': interest,
         'worry': gomin,
       },
+      functionName: 'sendUserInfo2ToServer',
     );
   }
 
@@ -62,6 +65,7 @@ class ApiService {
         'code': code,
         'userIds': family,
       },
+      functionName: 'sendConnectionToServer',
     );
   }
 
@@ -69,6 +73,7 @@ class ApiService {
     await _sendRequestToServer(
       path: 'family/today/question?familyId=$familyId',
       body: {},
+      functionName: 'requestQuestionToServer',
     );
   }
 
@@ -79,6 +84,7 @@ class ApiService {
         'questionId': questionId,
         'content': content,
       },
+      functionName: 'sendAnswerToServer',
     );
   }
 
@@ -86,6 +92,7 @@ class ApiService {
     await _sendRequestToServer(
       path: 'chat/send',
       body: {},
+      functionName: 'sendChattingToServer',
     );
   }
 }

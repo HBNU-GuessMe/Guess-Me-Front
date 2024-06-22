@@ -65,7 +65,7 @@ class SharedData extends ChangeNotifier {
     print('updateFamilyData_provider: $_familyData');
   }
 
-  void connectFamilyCode(String newData) {
+  void updateFamilyCode(String newData) {
     _familyCode = newData;
     notifyListeners();
   }

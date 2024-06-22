@@ -22,8 +22,8 @@ class ApiGet {
   }
 
   Future<void> requestQuestion(int familyId) async {
-    const url = "http://43.202.246.248:8000/family/today/question?familyId=2";
-    final uri = Uri.parse(url);
+    const path = "family/today/question?familyId=2";
+    final uri = Uri.parse('$_baseUrl/$path');
     String? token = await accessToken;
     final response = await http.get(
       uri,
@@ -61,9 +61,9 @@ class ApiGet {
     }
   }
 
-  Future<void> requestFamilyAnswer(int questionId) async {
-    const url = "http://43.202.246.248:8000/answer/getAll?questionId=20";
-    final uri = Uri.parse(url);
+  Future<void> checkFamilyCode(String familyCode) async {
+    final path = "user/code/input/validate?code=$familyCode";
+    final uri = Uri.parse('$_baseUrl/$path');
     String? token = await accessToken;
     final response = await http.get(
       uri,
