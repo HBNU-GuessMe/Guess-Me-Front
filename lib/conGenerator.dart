@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
 import 'package:guessme/conInput.dart';
 import 'package:guessme/conList.dart';
 import 'common_appbar.dart';
+import 'api_service_get.dart';
 
 class GenCode extends StatefulWidget {
   const GenCode({super.key});
@@ -15,21 +15,16 @@ class GenCode extends StatefulWidget {
 
 class _GenCodeState extends State<GenCode> {
   String _newcode = '';
+  final ApiGet _apiGet = ApiGet();
 
   @override
   void initState() {
     super.initState();
-    _generateFamilycode();
+    _fetchUserCode();
   }
 
-  void _generateFamilycode() {
-    final random = Random();
-    const characters =
-        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    String newcode = '';
-    for (int i = 0; i < 10; i++) {
-      newcode += characters[random.nextInt(characters.length)];
-    }
+  Future<void> _fetchUserCode() async {
+    String newcode = await _apiGet.requestUserCode();
     setState(() {
       _newcode = newcode;
     });
@@ -79,10 +74,6 @@ class _GenCodeState extends State<GenCode> {
                 ),
               ),
             ),
-            // Text(
-            //   _newcode,
-            //   style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            // ),
             const SizedBox(
               height: 150,
             ),
@@ -134,33 +125,6 @@ class _GenCodeState extends State<GenCode> {
             const SizedBox(
               height: 150,
             ),
-            // SizedBox(
-            //     child: Row(
-            //   children: <Widget>[
-            //     const SizedBox(
-            //       width: 230,
-            //     ),
-            //     TextButton(
-            //       style: TextButton.styleFrom(foregroundColor: Colors.black),
-            //       onPressed: () {
-            //         Navigator.push(context,
-            //             MaterialPageRoute(builder: (_) => const FamilyList()));
-            //       },
-            //       child: const Row(
-            //         children: [
-            //           Text(
-            //             '우리 가족 목록',
-            //             style: TextStyle(fontSize: 22.0),
-            //           ),
-            //           Icon(
-            //             Icons.arrow_forward_ios,
-            //             size: 20.0,
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //   ],
-            // )),
           ],
         ),
       ),

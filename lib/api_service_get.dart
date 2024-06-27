@@ -100,4 +100,41 @@ class ApiGet {
       print("Failed to fetch question: ${response.statusCode}");
     }
   }
+
+  Future<String> requestUserCode() async {
+    const path = "user/code";
+    final uri = Uri.parse('$_baseUrl/$path');
+    String? token = await accessToken;
+    final response = await http.get(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final decodedBody = utf8.decode(response.bodyBytes);
+      final jsonResponse = jsonDecode(decodedBody);
+      print(jsonResponse);
+      if (jsonResponse.containsKey('data')) {
+        final data = jsonResponse['data'];
+        if (data.containsKey('code')) {
+          String fCode = data['code'];
+          print('유저가 생성한 가족코드: $fCode');
+          FamilyManager().updateFamilyCode(fCode);
+          return fCode;
+        } else {
+          print('data 객체에 code가 없습니다.');
+          return '';
+        }
+      } else {
+        print('응답에 data 객체가 없습니다.');
+        return '';
+      }
+    } else {
+      print("Failed to fetch question: ${response.statusCode}");
+      return '';
+    }
+  }
 }

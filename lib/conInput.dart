@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:guessme/conList.dart';
-import 'package:provider/provider.dart';
-import 'shared_data.dart';
+//import 'package:provider/provider.dart';
+//import 'shared_data.dart';
 import 'common_appbar.dart';
 import 'api_service_get.dart';
 
@@ -35,7 +35,7 @@ class _InsCodeState extends State<InsCode> {
 
   @override
   Widget build(BuildContext context) {
-    final sharedData = Provider.of<SharedData>(context);
+    //final sharedData = Provider.of<SharedData>(context);
     return Scaffold(
       backgroundColor: const Color.fromRGBO(255, 240, 246, 1),
       appBar: const CommonAppBar(),
@@ -84,7 +84,7 @@ class _InsCodeState extends State<InsCode> {
             padding: const EdgeInsets.fromLTRB(100, 0, 100, 0),
             child: ElevatedButton(
               onPressed: () async {
-                sharedData.updateFamilyCode(selectedFamilyCode);
+                //sharedData.updateFamilyCode(selectedFamilyCode);
                 await _apiGet.checkFamilyCode(selectedFamilyCode);
                 showToast();
               },

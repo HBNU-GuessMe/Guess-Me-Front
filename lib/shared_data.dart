@@ -8,7 +8,6 @@ class SharedData extends ChangeNotifier {
   List<String?> _interestData = []; //사전정보 관심사
   List<String?> _gominData = []; //사전정보 고민
   List<String> _familyData = []; //연결 가족리스트
-  String _familyCode = ""; //가족연결코드
   String _myanswerData = "답변을 입력해주세요."; //나의답변저장
   String _questionData = "";
 
@@ -19,7 +18,6 @@ class SharedData extends ChangeNotifier {
   List<String?> get interestData => _interestData;
   List<String?> get gominData => _gominData;
   List<String> get familyData => _familyData;
-  String get familyCode => _familyCode;
   String get myanswerData => _myanswerData;
   String get questionData => _questionData;
 
@@ -63,11 +61,6 @@ class SharedData extends ChangeNotifier {
     _familyData = newData;
     notifyListeners();
     print('updateFamilyData_provider: $_familyData');
-  }
-
-  void updateFamilyCode(String newData) {
-    _familyCode = newData;
-    notifyListeners();
   }
 
   void updateMyAnswerData(String newData) {
@@ -140,5 +133,23 @@ class QuestionManager {
 
   void setQuestionId(int questionId) {
     _questionId = questionId;
+  }
+}
+
+class FamilyManager {
+  static final FamilyManager _instance = FamilyManager._internal();
+
+  String? _familyCode;
+
+  factory FamilyManager() {
+    return _instance;
+  }
+
+  FamilyManager._internal();
+
+  String? get familyCode => _familyCode;
+
+  void updateFamilyCode(String code) {
+    _familyCode = code;
   }
 }

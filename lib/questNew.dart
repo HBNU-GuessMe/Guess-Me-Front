@@ -141,9 +141,9 @@ class _NewQuestState extends State<NewQuest> {
                     );
                   },
                   child: Container(
-                    width: 100, // 크기 증가
-                    height: 100, // 크기 증가
-                    decoration: BoxDecoration(
+                    width: 100,
+                    height: 100,
+                    decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage('assets/chat_floatingBtn.png'),
                         fit: BoxFit.cover,
