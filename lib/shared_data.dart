@@ -140,6 +140,7 @@ class FamilyManager {
   static final FamilyManager _instance = FamilyManager._internal();
 
   String? _familyCode;
+  int? _familyId;
 
   factory FamilyManager() {
     return _instance;
@@ -148,8 +149,13 @@ class FamilyManager {
   FamilyManager._internal();
 
   String? get familyCode => _familyCode;
+  int? get familyId => _familyId;
 
   void updateFamilyCode(String code) {
     _familyCode = code;
+  }
+
+  void updateFamilyId(int id) {
+    _familyId = id;
   }
 }

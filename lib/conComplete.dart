@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:guessme/questNew.dart';
 import 'common_appbar.dart';
 import 'api_service_get.dart';
+import 'shared_data.dart';
 
 class ComCode extends StatefulWidget {
   const ComCode({super.key});
@@ -12,6 +13,13 @@ class ComCode extends StatefulWidget {
 
 class _ComCodeState extends State<ComCode> {
   final ApiGet _apiGet = ApiGet();
+  int? familyId;
+
+  @override
+  void initState() {
+    super.initState();
+    familyId = FamilyManager().familyId;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +68,8 @@ class _ComCodeState extends State<ComCode> {
             child: TextButton(
               style: TextButton.styleFrom(foregroundColor: Colors.black),
               onPressed: () async {
-                await _apiGet.requestQuestion(1);
+                await _apiGet.createQuestion();
+                await _apiGet.requestQuestion(familyId!);
                 Navigator.push(context,
                     MaterialPageRoute(builder: (_) => const NewQuest()));
               },

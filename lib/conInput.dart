@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:guessme/conList.dart';
-//import 'package:provider/provider.dart';
-//import 'shared_data.dart';
 import 'common_appbar.dart';
 import 'api_service_get.dart';
 
@@ -35,7 +33,6 @@ class _InsCodeState extends State<InsCode> {
 
   @override
   Widget build(BuildContext context) {
-    //final sharedData = Provider.of<SharedData>(context);
     return Scaffold(
       backgroundColor: const Color.fromRGBO(255, 240, 246, 1),
       appBar: const CommonAppBar(),
@@ -84,9 +81,19 @@ class _InsCodeState extends State<InsCode> {
             padding: const EdgeInsets.fromLTRB(100, 0, 100, 0),
             child: ElevatedButton(
               onPressed: () async {
-                //sharedData.updateFamilyCode(selectedFamilyCode);
-                await _apiGet.checkFamilyCode(selectedFamilyCode);
-                showToast();
+                if (selectedFamilyCode.length != 10) {
+                  showToast('코드는 10자리여야 합니다.');
+                  return;
+                }
+
+                final response =
+                    await _apiGet.checkFamilyCode(selectedFamilyCode);
+                if (response.statusCode == 200) {
+                  showToast('가족 연결중입니다.');
+                  await _apiGet.requestFamilyId();
+                } else {
+                  showToast('가족코드를 연결할 수 없어요. 코드를 확인해주세요.');
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color.fromRGBO(248, 187, 208, 1),
@@ -112,9 +119,19 @@ class _InsCodeState extends State<InsCode> {
               ),
               TextButton(
                 style: TextButton.styleFrom(foregroundColor: Colors.black),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => const FamilyList()));
+                onPressed: () async {
+                  if (selectedFamilyCode.length != 10) {
+                    showToast('코드는 10자리여야 합니다.');
+                    return;
+                  }
+                  final response =
+                      await _apiGet.checkFamilyCode(selectedFamilyCode);
+                  if (response.statusCode == 200) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => const FamilyList()));
+                  } else {
+                    showToast('다음페이지로 이동할 수 없어요. 코드를 확인해주세요.');
+                  }
                 },
                 child: const Row(
                   children: [
@@ -137,20 +154,9 @@ class _InsCodeState extends State<InsCode> {
   }
 }
 
-void showToast() {
+void showToast(String message) {
   Fluttertoast.showToast(
-    msg: '가족 연결중입니다.',
-    gravity: ToastGravity.BOTTOM,
-    backgroundColor: Colors.grey,
-    fontSize: 18,
-    textColor: Colors.white,
-    toastLength: Toast.LENGTH_SHORT,
-  );
-}
-
-void showError() {
-  Fluttertoast.showToast(
-    msg: '존재하지 않는 코드입니다.',
+    msg: message,
     gravity: ToastGravity.BOTTOM,
     backgroundColor: Colors.grey,
     fontSize: 18,
