@@ -100,7 +100,17 @@ class ApiGet {
     if (response.statusCode == 200) {
       final decodedBody = utf8.decode(response.bodyBytes);
       final jsonResponse = jsonDecode(decodedBody);
-      print(jsonResponse);
+
+      final data = jsonResponse['data'];
+      final users = data['users'];
+      List<String> nicknames = [];
+
+      for (var user in users) {
+        nicknames.add(user['nickname']);
+      }
+
+      print(nicknames);
+      FamilyManager().updateFamilyList(nicknames);
     } else {
       print("Failed to fetch familyInfo: ${response.statusCode}");
     }

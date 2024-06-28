@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:guessme/conComplete.dart';
 import 'common_appbar.dart';
+import 'api_service_get.dart';
+import 'shared_data.dart';
 
 class FamilyList extends StatefulWidget {
   const FamilyList({super.key});
@@ -11,11 +13,8 @@ class FamilyList extends StatefulWidget {
 }
 
 class _FamilyListState extends State<FamilyList> {
-  final List<String> familyMembers = [
-    '쓔리쓔리걸',
-    '데디',
-    '맘',
-  ];
+  final ApiGet _apiGet = ApiGet();
+  List<String> familyMembers = [];
 
   Timer? _timer;
   int _start = 15;
@@ -23,7 +22,17 @@ class _FamilyListState extends State<FamilyList> {
   @override
   void initState() {
     super.initState();
+    fetchFamilyList();
     startTimer();
+  }
+
+  Future<void> fetchFamilyList() async {
+    final familyId = FamilyManager().familyId;
+    _apiGet.checkFamilyInfo(familyId!);
+    final familyList = FamilyManager().familyList;
+    setState(() {
+      familyMembers = familyList;
+    });
   }
 
   void startTimer() {
@@ -36,7 +45,7 @@ class _FamilyListState extends State<FamilyList> {
         });
       } else {
         setState(() {
-          //페이지 새로고침 로직 미구현
+          fetchFamilyList();
           _start = 15;
         });
       }

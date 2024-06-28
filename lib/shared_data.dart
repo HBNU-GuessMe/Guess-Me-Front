@@ -141,6 +141,7 @@ class FamilyManager {
 
   String? _familyCode;
   int? _familyId;
+  List<String> _familyList = [];
 
   factory FamilyManager() {
     return _instance;
@@ -150,6 +151,7 @@ class FamilyManager {
 
   String? get familyCode => _familyCode;
   int? get familyId => _familyId;
+  List<String> get familyList => _familyList;
 
   void updateFamilyCode(String code) {
     _familyCode = code;
@@ -157,5 +159,10 @@ class FamilyManager {
 
   void updateFamilyId(int id) {
     _familyId = id;
+  }
+
+  void updateFamilyList(List<String> list) {
+    _familyList = list;
+    print("가족 리스트가 업데이트 되었어요.");
   }
 }

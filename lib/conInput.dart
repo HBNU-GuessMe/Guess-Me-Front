@@ -89,7 +89,7 @@ class _InsCodeState extends State<InsCode> {
                 final response =
                     await _apiGet.checkFamilyCode(selectedFamilyCode);
                 if (response.statusCode == 200) {
-                  showToast('가족 연결중입니다.');
+                  showToast('가족 연결중입니다.\n다음페이지에서 연결을 확인하세요.');
                   await _apiGet.requestFamilyId();
                 } else {
                   showToast('가족코드를 연결할 수 없어요. 코드를 확인해주세요.');
