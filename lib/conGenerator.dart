@@ -81,7 +81,8 @@ class _GenCodeState extends State<GenCode> {
               width: 270,
               height: 60,
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+                  await _apiGet.requestFamilyId();
                   Navigator.push(context,
                       MaterialPageRoute(builder: (_) => const FamilyList()));
                 },

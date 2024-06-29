@@ -34,8 +34,8 @@ class MyApp extends StatelessWidget {
       },
       child: MaterialApp(
         theme: ThemeData(
-          bottomNavigationBarTheme: BottomNavigationBarThemeData(
-            selectedItemColor: Color(0xFFF8BBD0), // 선택된 항목 색상을 핑크색으로 설정
+          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+            selectedItemColor: Color(0xFFF8BBD0),
           ),
         ),
         home: const OnboardingScreen(),

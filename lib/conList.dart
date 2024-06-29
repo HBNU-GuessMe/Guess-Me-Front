@@ -36,7 +36,7 @@ class _FamilyListState extends State<FamilyList> {
   }
 
   void startTimer() {
-    _start = 15;
+    _start = 1;
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_start > 0) {
