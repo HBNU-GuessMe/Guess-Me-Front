@@ -58,7 +58,7 @@ class ApiService {
     );
   }
 
-  Future<void> sendConnectionToServer(String code, List<String?> family) async {
+  Future<void> sendConnectionToServer(String? code, List<int> family) async {
     await _sendRequestToServer(
       path: 'family/connection',
       body: {

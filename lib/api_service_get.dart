@@ -104,13 +104,15 @@ class ApiGet {
       final data = jsonResponse['data'];
       final users = data['users'];
       List<String> nicknames = [];
+      List<int> userIds = [];
 
       for (var user in users) {
         nicknames.add(user['nickname']);
+        userIds.add(user['userId']);
       }
 
       print(nicknames);
-      FamilyManager().updateFamilyList(nicknames);
+      FamilyManager().updateFamilyList(nicknames, userIds);
     } else {
       print("Failed to fetch familyInfo: ${response.statusCode}");
     }
