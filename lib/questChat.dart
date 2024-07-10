@@ -26,15 +26,13 @@ class _ChatScreenState extends State<ChatScreen> {
       _messages.add({'nickname': '나', 'text': text});
     });
 
-    // Start the timer for the responses
     _startResponseTimers();
   }
 
   void _startResponseTimers() {
-    _timer1?.cancel(); // Cancel any existing timer
-    _timer2?.cancel(); // Cancel any existing timer
+    _timer1?.cancel();
+    _timer2?.cancel();
 
-    // Add "맘" response after 6 seconds
     _timer1 = Timer(const Duration(seconds: 6), () {
       if (mounted) {
         setState(() {
@@ -46,7 +44,6 @@ class _ChatScreenState extends State<ChatScreen> {
         });
       }
 
-      // Add "대디" response after another 5 seconds
       _timer2 = Timer(const Duration(seconds: 5), () {
         if (mounted) {
           setState(() {
@@ -62,8 +59,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void dispose() {
-    _timer1?.cancel(); // Cancel the timer when disposing
-    _timer2?.cancel(); // Cancel the timer when disposing
+    _timer1?.cancel();
+    _timer2?.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -108,7 +105,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 1,
                     blurRadius: 5,
-                    offset: Offset(0, 3), // changes position of shadow
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
@@ -134,13 +131,13 @@ class _ChatScreenState extends State<ChatScreen> {
         child: Row(
           children: <Widget>[
             IconButton(
-              icon: Icon(Icons.camera_alt, color: Colors.black),
+              icon: const Icon(Icons.camera_alt, color: Colors.black),
               onPressed: () {
                 // Add your camera functionality here
               },
             ),
             IconButton(
-              icon: Icon(Icons.image, color: Colors.black),
+              icon: const Icon(Icons.image, color: Colors.black),
               onPressed: () {
                 // Add your gallery functionality here
               },
@@ -170,10 +167,10 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFE5F3FF), // 배경색 통일
-        title: Row(
+        backgroundColor: const Color(0xFFE5F3FF),
+        title: const Row(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
+          children: [
             Text(
               '쓔리쓔리걸네 가족',
               style: TextStyle(
@@ -182,7 +179,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 color: Colors.black,
               ),
             ),
-            Expanded(child: SizedBox()), // 오른쪽 여백 추가
+            Expanded(child: SizedBox()),
           ],
         ),
         elevation: 0.0,
@@ -204,7 +201,7 @@ class _ChatScreenState extends State<ChatScreen> {
               color: Theme.of(context).cardColor,
             ),
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 16.0), // 패딩을 추가하여 더 위로 올리기
+              padding: const EdgeInsets.only(bottom: 16.0),
               child: _buildTextComposer(),
             ),
           ),
