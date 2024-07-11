@@ -53,7 +53,8 @@ class _AnswerReplyState extends State<AnswerReply> {
               child: TextField(
                 controller: _controller,
                 onSubmitted: _handleSubmitted,
-                decoration: const InputDecoration.collapsed(hintText: '메시지 입력'),
+                decoration:
+                    const InputDecoration.collapsed(hintText: '댓글을 입력하세요'),
                 style: const TextStyle(fontSize: 18.0),
               ),
             ),
@@ -132,8 +133,8 @@ class _AnswerReplyState extends State<AnswerReply> {
                   ],
                 ),
                 Positioned(
-                  top: 90, // Adjust the position as needed
-                  left: 220, // Adjust the position as needed
+                  top: 90,
+                  left: 220,
                   child: Container(
                     padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(

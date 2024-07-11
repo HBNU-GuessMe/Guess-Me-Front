@@ -3,6 +3,7 @@ import 'package:guessme/questAnswer.dart';
 import 'package:guessme/questChat.dart';
 import 'package:guessme/questMypage.dart';
 import 'package:guessme/questStorage.dart';
+import 'package:guessme/questReply.dart';
 import 'shared_data.dart';
 import 'package:provider/provider.dart';
 
@@ -108,6 +109,7 @@ class _NewQuestState extends State<NewQuest> {
                             child: answerContainer(
                               username: myNickname,
                               answer: myAnswer,
+                              isMyAnswer: true,
                             ),
                           );
                         case "memberAnswer":
@@ -244,7 +246,8 @@ class _NewQuestState extends State<NewQuest> {
     );
   }
 
-  Widget answerContainer({String username = '', String answer = ''}) {
+  Widget answerContainer(
+      {String username = '', String answer = '', bool isMyAnswer = false}) {
     return Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -268,15 +271,44 @@ class _NewQuestState extends State<NewQuest> {
                 borderRadius: BorderRadius.circular(15),
               ),
             ),
-            child: Text(
-              answer,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Color(0xFF7C7C7C),
-                fontSize: 16,
-                fontFamily: 'Pretendard JP',
-                fontWeight: FontWeight.w400,
-              ),
+            child: Column(
+              children: [
+                Text(
+                  answer,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Color(0xFF7C7C7C),
+                    fontSize: 16,
+                    fontFamily: 'Pretendard JP',
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                if (isMyAnswer)
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const AnswerReply()));
+                      },
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            '댓글 보기',
+                            style: TextStyle(fontSize: 15.0),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 12.0,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
         ],
