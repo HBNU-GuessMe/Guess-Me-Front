@@ -1,9 +1,7 @@
 import 'dart:convert';
-//import 'package:flutter/material.dart';
 import 'package:guessme/kakao_login_sub.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:http/http.dart' as http;
-//import 'package:provider/provider.dart';
 import 'shared_data.dart';
 
 class MainViewModel {

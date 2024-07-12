@@ -28,12 +28,12 @@ class _NewQuestState extends State<NewQuest> {
     },
     {
       "type": "memberAnswer",
-      "username": "데디",
+      "username": "최강아빠",
       "answer": "쓔리 저번부터 일본여행가고싶어하던데 일본 아닐까? 우리 가족도 일본 가자!",
     },
     {
       "type": "memberAnswer",
-      "username": "맘",
+      "username": "맘망이",
       "answer": "쓔리 여행 좋아했어? 엄마랑도 여행가자!",
     },
   ];
@@ -297,7 +297,7 @@ class _NewQuestState extends State<NewQuest> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            '댓글 보기',
+                            '해피의 1:1 댓글 보기',
                             style: TextStyle(fontSize: 15.0),
                           ),
                           Icon(

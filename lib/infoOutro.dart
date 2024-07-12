@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'shared_data.dart';
 import 'api_service_post.dart';
 import 'auth_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class InfoOutroPage extends StatefulWidget {
   const InfoOutroPage({super.key});
@@ -79,13 +80,16 @@ class _InfoOutroPageState extends State<InfoOutroPage> {
             right: 40,
             child: TextButton(
               style: TextButton.styleFrom(foregroundColor: Colors.black),
-              onPressed: () {
+              onPressed: () async {
                 if (newToken != null) {
                   AuthService.saveAccessToken(newToken);
                   _apiService.sendUserInfoToServer(
                       role, nickname, gender, birth);
                   _apiService.sendUserInfo2ToServer(
                       interestString, gominString);
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.setBool('hasProfile', true);
                   Navigator.push(context,
                       MaterialPageRoute(builder: (_) => const GenCode()));
                 } else {

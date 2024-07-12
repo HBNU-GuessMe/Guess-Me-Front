@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:guessme/infoPosition.dart';
 import 'package:guessme/kakao_login.dart';
 import 'package:guessme/main_view_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -39,10 +40,13 @@ class _LoginPageState extends State<LoginPage> {
             GestureDetector(
               onTap: () async {
                 final result = await viewModel.login();
-                setState(() {
+                setState(() async {
                   loginState = result;
                   print('Login result: $loginState');
                   if (loginState) {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.setBool('isLoggedIn', true);
                     Navigator.push(
                       context,
                       MaterialPageRoute(

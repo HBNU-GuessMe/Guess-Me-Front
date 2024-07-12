@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:guessme/preLogin.dart';
+import 'package:guessme/main_view_model.dart';
+import 'package:guessme/kakao_login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OptionPage extends StatelessWidget {
   const OptionPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = MainViewModel(KakaoLogin());
     return Center(
       child: Column(
         children: [
@@ -22,9 +27,12 @@ class OptionPage extends StatelessWidget {
           const SizedBox(height: 150.0),
           TextButton(
             style: TextButton.styleFrom(foregroundColor: Colors.black),
-            onPressed: () {
-              // Navigator.push(context,
-              //     MaterialPageRoute(builder: (_) => const LoginPage()));
+            onPressed: () async {
+              await viewModel.logout();
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setBool('isLoggedIn', false);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => const LoginPage()));
             },
             child: const Row(
               children: [

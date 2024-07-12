@@ -7,7 +7,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   const CommonAppBar({
     super.key,
-    this.backgroundColor = Colors.white, // 배경색을 흰색으로 설정
+    this.backgroundColor = Colors.white,
     this.showBackButton = true,
   });
 

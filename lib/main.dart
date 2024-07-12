@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guessme/preOnboarding.dart';
+import 'package:guessme/preSplash.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
             selectedItemColor: Color(0xFFF8BBD0),
           ),
         ),
-        home: const OnboardingScreen(),
+        home: const SplashScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );
