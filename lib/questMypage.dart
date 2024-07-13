@@ -13,6 +13,9 @@ class OptionPage extends StatelessWidget {
     return Center(
       child: Column(
         children: [
+          const SizedBox(
+            height: 70,
+          ),
           const Padding(
             padding: EdgeInsets.only(top: 20.0, left: 20),
             child: Text(

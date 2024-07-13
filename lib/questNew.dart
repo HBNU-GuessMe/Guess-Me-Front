@@ -69,11 +69,6 @@ class _NewQuestState extends State<NewQuest> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(''),
-        elevation: 0.0,
-        scrolledUnderElevation: 0,
-      ),
       backgroundColor: Colors.white,
       body: IndexedStack(
         index: _index,
@@ -81,14 +76,14 @@ class _NewQuestState extends State<NewQuest> {
           Center(
             child: Column(
               children: <Widget>[
+                const SizedBox(
+                  height: 40,
+                ),
                 SizedBox(
                   height: 230,
                   child: Image.asset(myAnswer != "답변을 입력해주세요."
                       ? 'assets/GuessMe_question3.gif'
                       : 'assets/GuessMe_question1.gif'),
-                ),
-                const SizedBox(
-                  height: 20,
                 ),
                 Expanded(
                   child: ListView.builder(
@@ -106,10 +101,48 @@ class _NewQuestState extends State<NewQuest> {
                                   MaterialPageRoute(
                                       builder: (_) => const AnswerQuest()));
                             },
-                            child: answerContainer(
-                              username: myNickname,
-                              answer: myAnswer,
-                              isMyAnswer: true,
+                            child: Column(
+                              children: [
+                                answerContainer(
+                                  username: myNickname,
+                                  answer: myAnswer,
+                                  isMyAnswer: true,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 16.0),
+                                  child: Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) =>
+                                                    const AnswerReply()));
+                                      },
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Image.asset(
+                                            'assets/GuessMe_replyButton.png',
+                                            width: 20,
+                                            height: 20,
+                                          ),
+                                          const SizedBox(width: 5),
+                                          const Text(
+                                            '해피의 1:1 댓글 보기',
+                                            style: TextStyle(fontSize: 15.0),
+                                          ),
+                                          const Icon(
+                                            Icons.arrow_forward_ios,
+                                            size: 14.0,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           );
                         case "memberAnswer":
@@ -173,41 +206,26 @@ class _NewQuestState extends State<NewQuest> {
               });
             },
             currentIndex: _index,
-            items: <BottomNavigationBarItem>[
+            items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: _index == 0
-                    ? const ImageIcon(
-                        AssetImage("assets/GuessMe_bottomBar13.png"),
-                        size: 55.0,
-                      )
-                    : const ImageIcon(
-                        AssetImage("assets/GuessMe_bottomBar11.png"),
-                        size: 55.0,
-                      ),
+                icon: ImageIcon(
+                  AssetImage("assets/GuessMe_bottomBar11.png"),
+                  size: 55.0,
+                ),
                 label: '',
               ),
               BottomNavigationBarItem(
-                icon: _index == 1
-                    ? const ImageIcon(
-                        AssetImage("assets/GuessMe_bottomBar23.png"),
-                        size: 55.0,
-                      )
-                    : const ImageIcon(
-                        AssetImage("assets/GuessMe_bottomBar21.png"),
-                        size: 55.0,
-                      ),
+                icon: ImageIcon(
+                  AssetImage("assets/GuessMe_bottomBar21.png"),
+                  size: 55.0,
+                ),
                 label: '',
               ),
               BottomNavigationBarItem(
-                icon: _index == 2
-                    ? const ImageIcon(
-                        AssetImage("assets/GuessMe_bottomBar33.png"),
-                        size: 55.0,
-                      )
-                    : const ImageIcon(
-                        AssetImage("assets/GuessMe_bottomBar31.png"),
-                        size: 55.0,
-                      ),
+                icon: ImageIcon(
+                  AssetImage("assets/GuessMe_bottomBar31.png"),
+                  size: 55.0,
+                ),
                 label: '',
               ),
             ],
@@ -283,31 +301,6 @@ class _NewQuestState extends State<NewQuest> {
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                if (isMyAnswer)
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const AnswerReply()));
-                      },
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            '해피의 1:1 댓글 보기',
-                            style: TextStyle(fontSize: 15.0),
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            size: 12.0,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
               ],
             ),
           ),

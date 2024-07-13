@@ -45,7 +45,7 @@ class ApiGet {
         print('응답에 data 객체가 없습니다.');
       }
     } else {
-      print("Failed to fetch question: ${response.statusCode}");
+      print("질문을 불러오지 못했습니다: ${response.statusCode}");
     }
   }
 
@@ -66,7 +66,7 @@ class ApiGet {
       final jsonResponse = jsonDecode(decodedBody);
       print(jsonResponse);
     } else {
-      print("Failed to fetch question: ${response.statusCode}");
+      print("질문을 생성하지 못했습니다: ${response.statusCode}");
     }
   }
 
