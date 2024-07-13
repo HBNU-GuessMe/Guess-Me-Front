@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:guessme/questAnswer.dart';
 import 'package:guessme/questChat.dart';
 import 'package:guessme/questMypage.dart';
-import 'package:guessme/questStorage.dart';
+import 'package:guessme/questReport.dart';
 import 'package:guessme/questReply.dart';
 import 'shared_data.dart';
 import 'package:provider/provider.dart';
@@ -159,7 +159,7 @@ class _NewQuestState extends State<NewQuest> {
               ],
             ),
           ),
-          const StoragePage(),
+          const ReportPage(),
           const OptionPage(),
         ],
       ),
