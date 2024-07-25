@@ -3,7 +3,8 @@ import 'package:http/http.dart' as http;
 import 'auth_service.dart';
 
 class ApiService {
-  final String _baseUrl = "http://43.202.246.248:8000";
+  //final String _baseUrl = "http://43.202.246.248:8000";
+  final String _baseUrl = "http://3.35.87.49:8000";
 
   Future<String?> get accessToken async => await AuthService.getAccessToken();
 
@@ -49,7 +50,7 @@ class ApiService {
 
   Future<void> sendUserInfo2ToServer(String? interest, String? gomin) async {
     await _sendRequestToServer(
-      path: 'user/ward/info/register',
+      path: 'user/concern/info/register',
       body: {
         'interest': interest,
         'worry': gomin,
@@ -58,22 +59,33 @@ class ApiService {
     );
   }
 
-  Future<void> sendConnectionToServer(String? code, List<int> family) async {
+  Future<void> sendOwnerConnectionToServer(
+      String? code, List<int?> family) async {
+    await _sendRequestToServer(
+      path: 'family/owner/connection',
+      body: {
+        'code': code,
+        'userIds': family,
+      },
+      functionName: 'sendOwnerConnectionToServer',
+    );
+  }
+
+  Future<void> sendConnectionToServer(String? code) async {
     await _sendRequestToServer(
       path: 'family/connection',
       body: {
         'code': code,
-        'userIds': family,
       },
       functionName: 'sendConnectionToServer',
     );
   }
 
-  Future<void> requestQuestionToServer(int familyId) async {
+  Future<void> createQuestionToServer() async {
     await _sendRequestToServer(
-      path: 'family/today/question?familyId=$familyId',
+      path: 'family/question/create',
       body: {},
-      functionName: 'requestQuestionToServer',
+      functionName: 'createQuestionToServer',
     );
   }
 
@@ -85,14 +97,6 @@ class ApiService {
         'content': content,
       },
       functionName: 'sendAnswerToServer',
-    );
-  }
-
-  Future<void> sendChattingToServer() async {
-    await _sendRequestToServer(
-      path: 'chat/send',
-      body: {},
-      functionName: 'sendChattingToServer',
     );
   }
 }

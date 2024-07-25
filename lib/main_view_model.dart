@@ -35,7 +35,7 @@ class MainViewModel {
   }
 
   Future<void> sendUserId(id) async {
-    const url = "http://43.202.246.248:8000/oauth/kakao/token/create";
+    const url = "http://3.35.87.49:8000/oauth/kakao/token/create";
     final uri = Uri.parse(url);
     final body = jsonEncode({'snsId': id});
     final response = await http.post(

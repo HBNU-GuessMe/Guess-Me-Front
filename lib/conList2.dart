@@ -3,20 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:guessme/conComplete.dart';
 import 'common_appbar.dart';
 import 'api_service_get.dart';
-import 'api_service_post.dart';
 import 'shared_data.dart';
 
-class FamilyList extends StatefulWidget {
-  const FamilyList({super.key});
+class FamilyList2 extends StatefulWidget {
+  const FamilyList2({super.key});
 
   @override
-  State<FamilyList> createState() => _FamilyListState();
+  State<FamilyList2> createState() => _FamilyList2State();
 }
 
-class _FamilyListState extends State<FamilyList> {
-  final ApiService _apiService = ApiService();
+class _FamilyList2State extends State<FamilyList2> {
   final ApiGet _apiGet = ApiGet();
   List<String> familyMembers = [];
+  int? familyId;
 
   Timer? _timer;
   int _start = 15;
@@ -128,12 +127,9 @@ class _FamilyListState extends State<FamilyList> {
               height: 57,
               child: ElevatedButton(
                 onPressed: () {
-                  final familyCode = FamilyManager().familyCode;
-                  final userIds = FamilyManager().userIds;
-                  print(userIds);
                   _timer?.cancel();
-                  _apiService.sendConnectionToServer(familyCode);
-                  _apiService.createQuestionToServer();
+                  familyId = FamilyManager().familyId;
+                  //_apiGet.requestQuestion(familyId!);
                   Navigator.push(context,
                       MaterialPageRoute(builder: (_) => const ComCode()));
                 },

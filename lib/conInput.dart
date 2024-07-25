@@ -91,6 +91,8 @@ class _InsCodeState extends State<InsCode> {
                 if (response.statusCode == 200) {
                   showToast('가족 연결중입니다.\n다음페이지에서 연결을 확인하세요.');
                   await _apiGet.requestFamilyId();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => const FamilyList()));
                 } else {
                   showToast('가족코드를 연결할 수 없어요. 코드를 확인해주세요.');
                 }
@@ -108,46 +110,6 @@ class _InsCodeState extends State<InsCode> {
               ),
             ),
           ),
-          const SizedBox(
-            height: 70.0,
-          ),
-          SizedBox(
-              child: Row(
-            children: <Widget>[
-              const SizedBox(
-                width: 300,
-              ),
-              TextButton(
-                style: TextButton.styleFrom(foregroundColor: Colors.black),
-                onPressed: () async {
-                  if (selectedFamilyCode.length != 10) {
-                    showToast('코드는 10자리여야 합니다.');
-                    return;
-                  }
-                  final response =
-                      await _apiGet.checkFamilyCode(selectedFamilyCode);
-                  if (response.statusCode == 200) {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => const FamilyList()));
-                  } else {
-                    showToast('다음페이지로 이동할 수 없어요. 코드를 확인해주세요.');
-                  }
-                },
-                child: const Row(
-                  children: [
-                    Text(
-                      '다음',
-                      style: TextStyle(fontSize: 22.0),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20.0,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          )),
         ],
       ),
     );

@@ -16,8 +16,7 @@ class _AnswerQuestState extends State<AnswerQuest> {
   final ApiService _apiService = ApiService();
   final TextEditingController _controller = TextEditingController();
   String _answer = '';
-  //String? question = QuestionManager().question;
-  String? question = "쓔리쓔리걸, 여행을 좋아하는데, 다음 목적지로 생각 중인 곳이 어디인지 말해줘.";
+  String? question = QuestionManager().question;
   int? questionId = QuestionManager().questionId;
 
   @override

@@ -21,11 +21,15 @@ class _ReportPageState extends State<ReportPage> {
             children: <Widget>[
               const Padding(
                 padding: EdgeInsets.all(16.0),
-                child: Text(
-                  '우리 가족 소통 리포트',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '우리 가족 소통 리포트',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'Pretendard JP',
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
@@ -36,7 +40,12 @@ class _ReportPageState extends State<ReportPage> {
                   unselectedLabelColor: Colors.black,
                   indicator: BoxDecoration(
                     color: Color(0xFFF8BBD0),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    ),
                   ),
+                  indicatorSize: TabBarIndicatorSize.tab,
                   labelStyle: TextStyle(
                     fontSize: 17,
                     fontFamily: 'Pretendard JP',

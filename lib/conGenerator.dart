@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
 import 'package:guessme/conInput.dart';
 import 'package:guessme/conList.dart';
+import 'package:guessme/shared_data.dart';
 import 'common_appbar.dart';
 import 'api_service_get.dart';
 
@@ -27,6 +28,7 @@ class _GenCodeState extends State<GenCode> {
     String newcode = await _apiGet.requestUserCode();
     setState(() {
       _newcode = newcode;
+      FamilyManager().updateFamilyCode(newcode);
     });
   }
 

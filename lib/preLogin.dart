@@ -40,21 +40,27 @@ class _LoginPageState extends State<LoginPage> {
             GestureDetector(
               onTap: () async {
                 final result = await viewModel.login();
-                setState(() async {
-                  loginState = result;
+                // 비동기 작업이 완료된 후에 setState 호출
+                if (mounted) {
+                  setState(() {
+                    loginState = result;
+                  });
+
                   print('Login result: $loginState');
                   if (loginState) {
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
                     prefs.setBool('isLoggedIn', true);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const PositionPage(),
-                      ),
-                    );
+                    if (mounted) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const PositionPage(),
+                        ),
+                      );
+                    }
                   }
-                });
+                }
               },
               child: Container(
                 width: 280,

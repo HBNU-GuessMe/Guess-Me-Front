@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'shared_data.dart';
 import 'package:guessme/questNew.dart';
 
@@ -11,16 +10,25 @@ class AnswerReply extends StatefulWidget {
 }
 
 class _AnswerReplyState extends State<AnswerReply> {
-  String? question = "해피 피드백 질문";
+  String? question = "개별적으로 구체적이고, 심화된 질문";
   int? questionId = QuestionManager().questionId;
   final TextEditingController _controller = TextEditingController();
 
-  String _submittedText = '';
+  List<Map<String, String>> conversation = [
+    {'nickname': '해피', 'message': '개별적으로 구체적이고, 심화된 질문'},
+  ];
+
+  bool hasAskedAnotherQuestion = false;
 
   void _handleSubmitted(String text) {
     _controller.clear();
     setState(() {
-      _submittedText = text;
+      conversation.add({'nickname': '나', 'message': text});
+      if (!hasAskedAnotherQuestion) {
+        conversation
+            .add({'nickname': '해피', 'message': '또 다른 심화된 질문입니다. 답변 부탁드려요!'});
+        hasAskedAnotherQuestion = true;
+      }
     });
   }
 
@@ -74,96 +82,126 @@ class _AnswerReplyState extends State<AnswerReply> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        onWillPop: () async {
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const NewQuest()),
-            (Route<dynamic> route) => false,
-          );
-          return false;
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text('댓글'),
-            elevation: 0.0,
-          ),
-          body: Center(
-            child: Stack(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    ConstrainedBox(
-                      constraints: const BoxConstraints(
-                        maxWidth: 355,
-                        minHeight: 70,
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.all(24),
-                        decoration: ShapeDecoration(
-                          color: const Color(0xFFF8BBD0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                        child: IntrinsicHeight(
-                          child: Text(
-                            question ?? '',
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 17,
-                              fontFamily: 'Pretendard JP',
-                              fontWeight: FontWeight.w600,
-                            ),
-                            softWrap: true,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const Divider(height: 1.0),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).cardColor,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 16.0),
-                        child: _buildTextComposer(),
-                      ),
-                    ),
-                  ],
+      onWillPop: () async {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const NewQuest()),
+          (Route<dynamic> route) => false,
+        );
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('댓글'),
+          elevation: 0.0,
+        ),
+        body: Column(
+          children: <Widget>[
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: conversation.map((entry) {
+                    return entry['nickname'] == '해피'
+                        ? _buildQuestionContainer(
+                            entry['nickname']!, entry['message']!)
+                        : _buildAnswerContainer(
+                            entry['nickname']!, entry['message']!);
+                  }).toList(),
                 ),
-                Positioned(
-                  top: 90,
-                  left: 220,
-                  child: Container(
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      color: Colors.amber,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(
-                      _submittedText,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        ));
+            const Divider(height: 1.0),
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: _buildTextComposer(),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
-}
 
-void showToast() {
-  Fluttertoast.showToast(
-    msg: '답변이 기록되었어요.',
-    gravity: ToastGravity.BOTTOM,
-    backgroundColor: Colors.grey,
-    fontSize: 18,
-    textColor: Colors.white,
-    toastLength: Toast.LENGTH_SHORT,
-  );
+  Widget _buildQuestionContainer(String nickname, String question) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildNicknameContainer(nickname, color: const Color(0xFFF8BBD0)),
+          const SizedBox(height: 8),
+          _buildMessageContainer(question,
+              color: const Color(0xFFF8BBD0), width: 340),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAnswerContainer(String nickname, String answer) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          _buildNicknameContainer(nickname, color: const Color(0xFFFFF0F6)),
+          const SizedBox(height: 8),
+          _buildMessageContainer(answer,
+              color: const Color(0xFFFFF0F6), width: 280),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNicknameContainer(String nickname, {required Color color}) {
+    return Container(
+      padding: const EdgeInsets.all(6),
+      clipBehavior: Clip.antiAlias,
+      decoration: ShapeDecoration(
+        color: color,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+      child: Text(
+        nickname,
+        style: const TextStyle(
+          color: Color(0xFF111111),
+          fontSize: 14,
+          fontFamily: 'Pretendard JP',
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.20,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMessageContainer(String message,
+      {required Color color, required double width}) {
+    return Container(
+      width: width,
+      padding: const EdgeInsets.all(16),
+      clipBehavior: Clip.antiAlias,
+      decoration: ShapeDecoration(
+        color: color,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+      ),
+      child: Text(
+        message,
+        style: const TextStyle(
+          color: Color(0xFF161616),
+          fontSize: 16,
+          fontFamily: 'Pretendard JP',
+          fontWeight: FontWeight.w400,
+          letterSpacing: 0.09,
+        ),
+      ),
+    );
+  }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:guessme/infoInterest.dart';
-import 'package:guessme/infoOutro.dart';
 import 'package:provider/provider.dart';
 import 'shared_data.dart';
 import 'common_appbar.dart';
@@ -108,55 +107,50 @@ class _NicknamePageState extends State<NicknamePage> {
               ),
             ],
           ),
-          Positioned(
-            bottom: 100,
-            right: 40,
-            child: TextButton(
-              style: TextButton.styleFrom(foregroundColor: Colors.black),
-              onPressed: () {
-                if (_contentEditController.text.isEmpty) {
-                  Fluttertoast.showToast(
-                    msg: "한 글자 이상 입력해야 합니다!",
-                    gravity: ToastGravity.BOTTOM,
-                    backgroundColor: Colors.grey,
-                    fontSize: 18,
-                    textColor: Colors.white,
-                    toastLength: Toast.LENGTH_SHORT,
-                  );
-                } else {
-                  sharedData.updateNicknameData(selectedNickname);
-                  if (sharedData.positionData == '피보호자') {
-                    print(sharedData.positionData);
+          SizedBox(
+              child: Row(
+            children: <Widget>[
+              const SizedBox(
+                width: 270,
+              ),
+              TextButton(
+                style: TextButton.styleFrom(foregroundColor: Colors.black),
+                onPressed: () {
+                  if (_contentEditController.text.isEmpty) {
+                    Fluttertoast.showToast(
+                      msg: "한 글자 이상 입력해야 합니다!",
+                      gravity: ToastGravity.BOTTOM,
+                      backgroundColor: Colors.grey,
+                      fontSize: 18,
+                      textColor: Colors.white,
+                      toastLength: Toast.LENGTH_SHORT,
+                    );
+                  } else {
+                    sharedData.updateNicknameData(selectedNickname);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (_) => const InterestPage()));
-                  } else {
-                    print(sharedData.positionData);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => const InfoOutroPage()));
                   }
-                }
-              },
-              child: const Row(
-                children: [
-                  Text(
-                    '다음',
-                    style: TextStyle(
-                      fontSize: 22.0,
-                      color: Colors.black,
+                },
+                child: const Row(
+                  children: [
+                    Text(
+                      '다음',
+                      style: TextStyle(
+                        fontSize: 22.0,
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    size: 20.0,
-                  ),
-                ],
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: 20.0,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ),
+            ],
+          )),
         ],
       ),
     );

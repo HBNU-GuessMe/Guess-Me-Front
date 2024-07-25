@@ -6,6 +6,7 @@ import 'package:guessme/questReport.dart';
 import 'package:guessme/questReply.dart';
 import 'shared_data.dart';
 import 'package:provider/provider.dart';
+import 'api_service_get.dart';
 
 class NewQuest extends StatefulWidget {
   const NewQuest({super.key});
@@ -15,42 +16,35 @@ class NewQuest extends StatefulWidget {
 }
 
 class _NewQuestState extends State<NewQuest> {
+  final ApiGet _apiGet = ApiGet();
+  String? question;
+  int? familyId;
   var _index = 0;
   List<Map<String, dynamic>> answerList = [
     {
       "type": "question",
-      "content": "쓔리쓔리걸, 여행을 좋아하는데, 다음 목적지로 생각 중인 곳이 어디인지 말해줘.",
+      "content": "",
     },
     {
       "type": "myAnswer",
       "username": "username1",
-      "answer": "answer1",
-    },
-    {
-      "type": "memberAnswer",
-      "username": "최강아빠",
-      "answer": "쓔리 저번부터 일본여행가고싶어하던데 일본 아닐까? 우리 가족도 일본 가자!",
-    },
-    {
-      "type": "memberAnswer",
-      "username": "맘망이",
-      "answer": "쓔리 여행 좋아했어? 엄마랑도 여행가자!",
+      "answer": "답변을 입력해주세요.",
     },
   ];
 
   @override
   void initState() {
     super.initState();
+    familyId = FamilyManager().familyId;
+    _apiGet.requestQuestion(familyId!);
     updateQuestionContent();
   }
 
   void updateQuestionContent() {
-    String question = "쓔리쓔리걸, 여행을 좋아하는데, 다음 목적지로 생각 중인 곳이 어디인지 말해줘.";
-    for (var i = 0; i < answerList.length; i++) {
-      if (answerList[i]["type"] == "question") {
-        answerList[i]["content"] = question;
-        break;
-      }
+    question = QuestionManager().question;
+
+    if (answerList[0]["type"] == "question") {
+      answerList[0]["content"] = question;
     }
   }
 
@@ -108,36 +102,40 @@ class _NewQuestState extends State<NewQuest> {
                                   answer: myAnswer,
                                   isMyAnswer: true,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 16.0),
-                                  child: Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: TextButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) =>
-                                                    const AnswerReply()));
-                                      },
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Image.asset(
-                                            'assets/GuessMe_replyButton.png',
-                                            width: 20,
-                                            height: 20,
-                                          ),
-                                          const SizedBox(width: 5),
-                                          const Text(
-                                            '해피의 1:1 댓글 보기',
-                                            style: TextStyle(fontSize: 15.0),
-                                          ),
-                                          const Icon(
-                                            Icons.arrow_forward_ios,
-                                            size: 14.0,
-                                          ),
-                                        ],
+                                Visibility(
+                                  visible:
+                                      _index == 0 && myAnswer != "답변을 입력해주세요.",
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 16.0),
+                                    child: Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: TextButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      const AnswerReply()));
+                                        },
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Image.asset(
+                                              'assets/GuessMe_replyButton.png',
+                                              width: 20,
+                                              height: 20,
+                                            ),
+                                            const SizedBox(width: 5),
+                                            const Text(
+                                              '해피의 1:1 댓글 보기',
+                                              style: TextStyle(fontSize: 15.0),
+                                            ),
+                                            const Icon(
+                                              Icons.arrow_forward_ios,
+                                              size: 14.0,
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -198,6 +196,7 @@ class _NewQuestState extends State<NewQuest> {
         child: SizedBox(
           height: kBottomNavigationBarHeight * 2.2,
           child: BottomNavigationBar(
+            backgroundColor: Colors.white,
             showSelectedLabels: false,
             showUnselectedLabels: false,
             onTap: (index) {
